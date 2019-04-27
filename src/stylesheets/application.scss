@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+$red: #da3333;
+$hole: #6a6a6a;
+$black: #333;
+$white: #eee;
+
+.Boards {
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: 180px 180px;
+  grid-template-rows: 180px 180px;
+}
+
+.Board {
+  background-color: $red;
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+.Stone {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  &__Item {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+
+    &_None {
+      background-color: #e03333;
+      box-shadow: 0px 0px 5px 8px #d02222 inset;
+    }
+
+    &_Black {
+      background-color: $black;
+      box-shadow: 0px 0px 5px 8px #3a3a3a inset;
+    }
+
+    &_White {
+      background-color: $white;
+      box-shadow: 0px 0px 5px 10px #e0e0e0 inset;
+    }
+  }
+}
