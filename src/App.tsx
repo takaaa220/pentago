@@ -4,13 +4,24 @@ import Boards from "./components/Boards";
 
 export interface AppProps {}
 
-export interface AppState {}
+export interface AppState {
+  tarn: 1 | 2;
+}
 
 class App extends React.Component<AppProps, AppState> {
+  constructor(props: AppProps) {
+    super(props);
+    this.state = {
+      tarn: 1
+    };
+  }
+
   render() {
+    const { tarn } = this.state;
+
     return (
-      <div>
-        <Boards />
+      <div className="App">
+        <Boards tarn={tarn} />
       </div>
     );
   }

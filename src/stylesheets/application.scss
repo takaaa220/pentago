@@ -5,6 +5,13 @@ $hole: #6a6a6a;
 $black: #333;
 $white: #eee;
 
+.App {
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+}
+
 .Boards {
   display: grid;
   grid-gap: 5px;
