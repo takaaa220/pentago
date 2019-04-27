@@ -9,6 +9,7 @@ export enum StoneType {
 
 export interface BoardsProps {
   tarn: 1 | 2;
+  changeTarn: Function;
 }
 
 export interface BoardsState {
@@ -30,10 +31,13 @@ export default class Boards extends React.Component<BoardsProps, BoardsState> {
   }
 
   putStoneHandler(boardNum: number, stoneNum: number) {
-    console.log("hello");
     const boards = this.state.boards;
+    if (boards[boardNum][stoneNum] !== StoneType.None) {
+      return;
+    }
     boards[boardNum][stoneNum] = this.props.tarn;
     this.setState({ boards });
+    this.props.changeTarn();
   }
 
   render() {

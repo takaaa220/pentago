@@ -14,6 +14,13 @@ class App extends React.Component<AppProps, AppState> {
     this.state = {
       tarn: 1
     };
+
+    this.changeTarn = this.changeTarn.bind(this);
+  }
+
+  changeTarn() {
+    const tarn = this.state.tarn === 1 ? 2 : 1;
+    this.setState({ tarn });
   }
 
   render() {
@@ -21,7 +28,7 @@ class App extends React.Component<AppProps, AppState> {
 
     return (
       <div className="App">
-        <Boards tarn={tarn} />
+        <Boards tarn={tarn} changeTarn={this.changeTarn} />
       </div>
     );
   }
