@@ -1,6 +1,6 @@
 import * as React from "react";
 import Stone from "./Stone";
-import { StoneType } from "./Boards";
+import { StoneType } from "../App";
 
 interface BoardProps {
   boardNum: number;

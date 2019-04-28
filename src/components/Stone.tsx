@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StoneType } from "./Boards";
+import { StoneType } from "../App";
 
 interface StoneProps {
   boardNum: number;
