@@ -28,8 +28,17 @@ class App extends React.Component<AppProps, AppState> {
       ]
     };
 
-    this.changeTarn = this.changeTarn.bind(this);
     this.putStoneHandler = this.putStoneHandler.bind(this);
+    this.endGame = this.endGame.bind(this);
+    this.scanBoard = this.scanBoard.bind(this);
+  }
+
+  componentDidUpdate({}, prevState: AppState) {
+    if (prevState.tarn !== this.state.tarn) {
+      if (this.endGame()) {
+        alert("end");
+      }
+    }
   }
 
   putStoneHandler(boardNum: number, stoneNum: number) {
@@ -38,17 +47,66 @@ class App extends React.Component<AppProps, AppState> {
       return;
     }
     boards[boardNum][stoneNum] = this.state.tarn;
-    this.setState({ boards });
-    this.changeTarn();
+    const tarn = this.state.tarn === StoneType.P2 ? StoneType.P1 : StoneType.P2;
+    this.setState({ boards, tarn });
   }
 
-  changeTarn() {
-    const tarn = this.state.tarn === StoneType.P2 ? StoneType.P1 : StoneType.P2;
-    this.setState({ tarn });
+  scanBoard(i: number, j: number, x: number, y: number, allBoard: StoneType[][]): number {
+    if (x > 5 || y > 5) {
+      return 0;
+    }
+
+    const tarn = this.state.tarn === StoneType.P1 ? StoneType.P2 : StoneType.P1;
+    if (allBoard[y][x] !== tarn) {
+      return 0;
+    }
+
+    return 1 + this.scanBoard(i, j, x + i, y + j, allBoard);
   }
 
   endGame(): boolean {
+    const allBoard = this.concatBoard();
+
+    for (let jj = 0; jj < 6; jj += 1) {
+      for (let ii = 0; ii < 6; ii += 1) {
+        if (ii > 1 && jj > 1) {
+          break;
+        }
+
+        // yoko
+        if (ii < 2) {
+          if (this.scanBoard(1, 0, ii, jj, allBoard) > 4) {
+            return true;
+          }
+        }
+
+        // tate
+        if (jj < 2) {
+          if (this.scanBoard(0, 1, ii, jj, allBoard) > 4) {
+            return true;
+          }
+        }
+
+        // naname
+        if (ii < 2 && jj < 2) {
+          if (this.scanBoard(1, 1, ii, jj, allBoard) > 4) {
+            return true;
+          }
+        }
+      }
+    }
     return false;
+  }
+
+  concatBoard(): StoneType[][] {
+    const boards = this.state.boards;
+    const allBoard = [];
+    for (let j = 0; j < 4; j += 2) {
+      for (let i = 0; i < 9; i += 3) {
+        allBoard.push(boards[j].slice(i, i + 3).concat(boards[j + 1].slice(i, i + 3)));
+      }
+    }
+    return allBoard;
   }
 
   render() {
