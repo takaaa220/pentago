@@ -13,6 +13,7 @@ export interface AppProps {}
 export interface AppState {
   tarn: StoneType.P1 | StoneType.P2;
   boards: StoneType[][];
+  rotates: number[];
 }
 
 class App extends React.Component<AppProps, AppState> {
@@ -25,12 +26,14 @@ class App extends React.Component<AppProps, AppState> {
         Array(9).fill(StoneType.None),
         Array(9).fill(StoneType.None),
         Array(9).fill(StoneType.None)
-      ]
+      ],
+      rotates: [0, 0, 0, 0]
     };
 
     this.putStoneHandler = this.putStoneHandler.bind(this);
     this.endGame = this.endGame.bind(this);
     this.scanBoard = this.scanBoard.bind(this);
+    this.rotate = this.rotate.bind(this);
   }
 
   componentDidUpdate({}, prevState: AppState) {
@@ -109,12 +112,18 @@ class App extends React.Component<AppProps, AppState> {
     return allBoard;
   }
 
+  rotate(boardNum: number, direction: -1 | 1) {
+    const rotates = this.state.rotates;
+    rotates[boardNum] += direction;
+    this.setState({ rotates });
+  }
+
   render() {
-    const { boards } = this.state;
+    const { boards, rotates } = this.state;
 
     return (
       <div className="App">
-        <Boards boards={boards} putStoneHandler={this.putStoneHandler} />
+        <Boards boards={boards} putStoneHandler={this.putStoneHandler} rotate={this.rotate} rotates={rotates} />
       </div>
     );
   }

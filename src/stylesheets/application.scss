@@ -1,9 +1,18 @@
 @charset "UTF-8";
 
 $red: #da3333;
+$blue: #5cccfc;
 $hole: #6a6a6a;
 $black: #333;
 $white: #eee;
+
+@for $i from -100 through 100 {
+  $value: $i * 90deg;
+
+  .Rotate#{$i} {
+    transform: rotate($value);
+  }
+}
 
 .App {
   align-items: center;
@@ -20,11 +29,85 @@ $white: #eee;
 }
 
 .Board {
+  position: relative;
+}
+
+.Board__Item {
   background-color: $red;
   border-radius: 5px;
   display: grid;
+  height: 100%;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
+
+  transition: 1s;
+}
+
+.Arrow {
+  position: absolute; /*ボックスの位置指定 */
+  width: 40px; /* ボックスの横幅を指定する */
+  height: 20px; /* ボックスの高さを指定する */
+  background: $blue; /* ボックスの背景色を指定する */
+
+  &--Type {
+    &-1-1 {
+      transform: rotate(330deg);
+      top: -40px;
+      left: 40px;
+    }
+
+    &-1-2 {
+      transform: rotate(110deg);
+      top: 50px;
+      left: -50px;
+    }
+
+    &-2-1 {
+      transform: rotate(70deg);
+      top: 50px;
+      right: -50px;
+    }
+
+    &-2-2 {
+      transform: rotate(200deg);
+      top: -40px;
+      right: 40px;
+    }
+
+    &-3-1 {
+      transform: rotate(250deg);
+      bottom: 40px;
+      left: -50px;
+    }
+
+    &-3-2 {
+      transform: rotate(20deg);
+      bottom: -40px;
+      left: 40px;
+    }
+
+    &-4-1 {
+      transform: rotate(160deg);
+      bottom: -40px;
+      right: 40px;
+    }
+
+    &-4-2 {
+      transform: rotate(290deg);
+      bottom: 40px;
+      right: -50px;
+    }
+  }
+}
+
+.Arrow::after {
+  position: absolute; /* 三角形の位置指定 */
+  content: ""; /* 三角形のコンテンツ */
+  top: -5px; /* 上部から配置の基準位置を決める */
+  right: -30px; /* 右から配置の基準位置を決める */
+  border: 15px solid; /* 境界線を指定する */
+  border-color: transparent; /* 境界線の色をなしにする */
+  border-left: 15px solid $blue; /* 境界線の上部を実線で指定する */
 }
 
 .Stone {
