@@ -7,10 +7,11 @@ interface BoardsProps {
   boards: StoneType[][];
   rotate: Function;
   rotates: number[];
+  endGame: boolean;
 }
 
 const Boards: React.FunctionComponent<BoardsProps> = props => {
-  const { boards, putStoneHandler, rotate, rotates } = props;
+  const { boards, putStoneHandler, rotate, rotates, endGame } = props;
 
   const boardsElement = [];
   for (let index = 0; index < 4; index += 1) {
@@ -22,6 +23,7 @@ const Boards: React.FunctionComponent<BoardsProps> = props => {
         onClick={putStoneHandler}
         rotate={rotate}
         rotateDeg={rotates[index]}
+        endGame={endGame}
       />
     );
   }
