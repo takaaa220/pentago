@@ -21,7 +21,7 @@ export interface AppState {
   boards: StoneType[][];
   rotates: number[];
   status: Status;
-  winner: "Player1 Win!!!" | "Player2 Win!!!" | "Drow" | null;
+  winner: "黒の勝ち" | "白の勝ち" | "引き分け" | null;
 }
 
 class App extends React.Component<AppProps, AppState> {
@@ -53,11 +53,11 @@ class App extends React.Component<AppProps, AppState> {
       const isP2 = this.endGame(StoneType.P2);
       console.log(isP1, isP2);
       if (isP1 && isP2) {
-        this.setState({ status: Status.FinishGame, winner: "Drow" });
+        this.setState({ status: Status.FinishGame, winner: "引き分け" });
       } else if (isP1) {
-        this.setState({ status: Status.FinishGame, winner: "Player1 Win!!!" });
+        this.setState({ status: Status.FinishGame, winner: "黒の勝ち" });
       } else if (isP2) {
-        this.setState({ status: Status.FinishGame, winner: "Player2 Win!!!" });
+        this.setState({ status: Status.FinishGame, winner: "白の勝ち" });
       }
     }
   }
@@ -175,10 +175,11 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   render() {
-    const { boards, rotates, status, winner } = this.state;
+    const { tarn, boards, rotates, status, winner } = this.state;
 
     return (
       <div className={`App${winner ? " App--End" : ""}`}>
+        <p>{tarn === StoneType.P1 ? "黒のターン" : "白の勝ち"}</p>
         <Boards
           boards={boards}
           putStoneHandler={this.putStoneHandler}
@@ -186,6 +187,13 @@ class App extends React.Component<AppProps, AppState> {
           rotates={rotates}
           endGame={status === Status.RotateBoard}
         />
+        <div style={{ textAlign: "center" }}>
+          <br />
+          <br />
+          <p>基本的にルールは五目並べと一緒ですが，</p>
+          <p>石を置いた後に，ボードを回転させます．</p>
+          <p>石を置いた後またはボードを置いた後に自分の石が5枚揃ったら勝ちです．</p>
+        </div>
         {status === Status.FinishGame ? <div className="EndGame">{winner}</div> : null}
       </div>
     );
